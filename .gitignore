@@ -1,0 +1,11 @@
+# 컴파일된 클래스 및 바이너리 폴더 제외
+*.class
+bin/
+
+# 이클립스 설정 파일 및 폴더 제외
+.classpath
+.project
+.settings/
+.metadata/
+
+강의자료/
