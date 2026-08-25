@@ -1,6 +1,8 @@
 package account;
 
-public class AccountMemDao {
+import java.util.Arrays;
+
+public class AccountMemDao implements AccountDao{
 	public static int noSeq = 111111;
 	private Account[] accountDB = new Account[100];
 	private int numAccount;
@@ -22,29 +24,51 @@ public class AccountMemDao {
 	
 	// 입금
 	public boolean deposit(int accountNo, int amount) {
-		for (int i = 0; i < numAccount; i++) {
-			if (accountNo == accountDB[i].getNo()) {
-				// 입금처리
-				accountDB[i].setBalance(accountDB[i].getBalance() + amount);
-				return true;
-			}
+		Account ac = selectByNo(accountNo);
+		if (ac != null) {
+			ac.setBalance(ac.getBalance() + amount);
+			return true;
+		} else {
+			return false;
 		}
-		return false;
+		
 	}
 	
 	// 출금
 	public boolean withdraw(int accountNo, int amount, String password) {
-			for (int i = 0; i < numAccount; i++) {
-				if (accountNo == accountDB[i].getNo() && password.equals(accountDB[i].getPassword())) {
-					// 출금
-					if (amount <= accountDB[i].getBalance()) {
-						accountDB[i].setBalance(accountDB[i].getBalance() - amount);
-						return true;
-					} else {
-						return false;
-					}
+		Account ac = selectByNo(accountNo);
+		if (ac != null) {
+			if (password.equals(ac.getPassword())) {
+				// 출금
+				if (amount <= ac.getBalance()) {
+					ac.setBalance(ac.getBalance() - amount);
+					return true;
 				}
 			}
+		}
 		return false;
+	}
+
+	@Override
+	public Account selectByNo(int accountNo) {
+		for (int i = 0; i < numAccount; i++) {
+			if (accountNo == accountDB[i].getNo()) {
+				// 입금처리
+				return accountDB[i];
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public Account[] selectByOwner(String owner) {
+		Account[] acList = new Account[10];
+		int count = 0;
+		for (int i = 0; i < numAccount; i++) {
+			if (owner.equals(accountDB[i].getOwner())) {
+				acList[count++] = accountDB[i];
+			}
+		}
+		return Arrays.copyOf(acList, count);
 	}
 }

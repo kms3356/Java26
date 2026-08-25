@@ -4,12 +4,12 @@ import java.util.Scanner;
 
 import account.Account;
 import account.AccountMemDao;
-
+import account.AccountDao;
 public class MinSeokConsoleBank01 {
 	
-	static String[] startMenu = {"0.종료", "1.계좌등록", "2.계좌조회", "3.입금", "4.출금"};
+	static String[] startMenu = {"0.종료", "1.계좌등록", "2.계좌조회", "3.입금", "4.출금", "5.계좌 검색"};
 	static Scanner sc = new Scanner(System.in);
-	static AccountMemDao accountDao = new AccountMemDao();
+	static AccountDao accountDao = new AccountMemDao();
 	
 	public static void main(String[] args) {
 		welcomeMessage();
@@ -34,6 +34,9 @@ public class MinSeokConsoleBank01 {
 			case 4: // 출금
 				menuWidthdraw();
 				break;
+			case 5:
+				menuAccountSearch();
+				break;
 			case 0: // 종료
 				return;
 			default: // 없는 메뉴
@@ -43,6 +46,16 @@ public class MinSeokConsoleBank01 {
 		
 	}
 	
+	private static void menuAccountSearch() {
+		System.out.println("[계좌 검색]");
+		System.out.println("검색할 계좌주 이름 : ");
+		String owner = sc.nextLine();
+		Account[] acList = accountDao.selectByOwner(owner);
+		for (int i = 0; i < acList.length; i++) {
+			System.out.println(acList[i]);
+		}
+	}
+
 	private static void menuAccountRegist() {
 		// 계좌 등록 : 계좌주 이름, 비밀번호, 초기입금액
 		System.out.println("[계좌 등록]");
@@ -131,8 +144,5 @@ public class MinSeokConsoleBank01 {
 	
 	private static void sayGoodbye() {
 		System.out.println("Minseok Console Bank를 이용해 주셔서 감사합니다.");
-		
 	}
-
-
 }
