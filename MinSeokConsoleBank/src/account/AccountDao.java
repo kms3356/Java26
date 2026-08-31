@@ -1,10 +1,12 @@
 package account;
 
+import java.util.List;
+
 public interface AccountDao {
-	public boolean insertAccount(String owner, String password, int balance);
-	public Account[] selectAll();
-	public boolean deposit(int accountNo, int amount);
-	public boolean withdraw(int accountNo, int amount, String password);
-	public Account selectByNo(int accountNo);
-	public Account[] selectByOwner(String owner);
+	boolean insertAccount(Account ac);
+	List<Account> selectAll();
+	Account selectByNo(int accountNo);
+	List<Account> selectByOwner(String owner);
+	boolean updateAccount(Account ac);
+	boolean deleteAccount(int accountNo);
 }
