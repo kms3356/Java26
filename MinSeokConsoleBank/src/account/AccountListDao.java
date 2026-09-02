@@ -3,30 +3,18 @@ package account;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountListDao implements AccountDao{
-	private List<Account> accountDB = new ArrayList<Account>();
+public class AccountListDao implements AccountDao {
+
+	List<Account> accountDB = new ArrayList<>();
 
 	@Override
 	public boolean insertAccount(Account ac) {
-		accountDB.add(ac);
-		return true;
+		return accountDB.add(ac);
 	}
 
 	@Override
 	public List<Account> selectAll() {
-		List<Account> accountList = new ArrayList<Account>();
-//		for (int i = 0; i < accountDB.size(); i++)
-//		accountList.add(accountDB.get(i));;
-	
-//		Iterator<Account> iter = accountDB.iterator();
-//		while (iter.hasNext()) {
-//			accountList.add(iter.next());
-//		}
-	
-	for (Account ac : accountDB) {
-		accountList.add(ac);
-	}
-	return accountList;
+		return new ArrayList<>(accountDB);
 	}
 
 	@Override
@@ -34,32 +22,36 @@ public class AccountListDao implements AccountDao{
 		for (Account ac : accountDB) {
 			if (ac.getNo() == accountNo)
 				return ac;
-			}
+		}
 		return null;
 	}
 
 	@Override
 	public List<Account> selectByOwner(String owner) {
-		List<Account> accountList = new ArrayList<Account>();
+		List<Account> list = new ArrayList<>();
 		for (Account ac : accountDB) {
 			if (ac.getOwner().equals(owner))
-				accountList.add(ac);
+				list.add(ac);
 		}
-		return accountList;
+		return list;
 	}
 
 	@Override
 	public boolean updateAccount(Account ac) {
-		Account orgAccount = selectByNo(ac.getNo());
-		accountDB.set(accountDB.indexOf(orgAccount), ac);
-		return true;
+		for (int i = 0; i < accountDB.size(); i++) {
+			if (accountDB.get(i).getNo() == ac.getNo()) {
+				accountDB.set(i, ac);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
 	public boolean deleteAccount(int accountNo) {
-		// TODO Auto-generated method stub
-		return false;
+		Account ac = selectByNo(accountNo);
+		if (ac == null)
+			return false;
+		return accountDB.remove(ac);
 	}
-	
-	
 }

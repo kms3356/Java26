@@ -1,11 +1,10 @@
 package account;
 
 public class NoAccountException extends Exception {
-	public NoAccountException() {
-		
-	}
-	
+
+	private static final long serialVersionUID = 1L;
+
 	public NoAccountException(int accountNo) {
-		super("없는 계좌 번호 (" + accountNo + ")");
+		super(accountNo + "번 계좌는 존재하지 않습니다.");
 	}
 }

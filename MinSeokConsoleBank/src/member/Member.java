@@ -1,20 +1,21 @@
 package member;
 
 public class Member {
-	String id;
-	String nickname;
-	String password;
-	
+
+	private String id;
+	private String nickname;
+	private String password;
+
 	public Member(String id, String nickname, String password) {
 		this.id = id;
 		this.nickname = nickname;
 		this.password = password;
 	}
-	
+
 	public String getId() {
 		return id;
 	}
-	
+
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -33,5 +34,10 @@ public class Member {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("아이디 : %s | 닉네임 : %s", id, nickname);
 	}
 }
